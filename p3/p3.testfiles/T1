@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./p3 s1
+echo "RMB promts are not echoed"

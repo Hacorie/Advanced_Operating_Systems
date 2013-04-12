@@ -1,0 +1,67 @@
+set b0 program_2_output
+print b0
+create f1
+open f1
+# 100 char buffer
+set b1 this_buffer_has_exactly_one_hundred_characters_no_more_and_certainly_no_less_herps_derpin_derka_derk
+# write 200 bytes
+write b1
+write b1
+# reopen the file to start @ the beginning
+open f1
+# get 141 chars
+read 141 b5
+# print them. (this_buff..._chara)
+print b5
+# go to pos'n 60
+seek 60
+# should increase the file size by 1
+write b5
+# f1 201 0 1 2
+showinfo
+# start a new file
+create f2
+open f2 # auto-close f1
+set b2 Z
+write b2 # 1 byte (takes up a whole block)
+close
+close # should succeed silently
+# f2 1 3
+showinfo
+create f3
+open f3
+write b1 # 100 bytes
+read 100 b2
+set b0 next_line_is_blank
+print b0
+print b2 # prints a blank line
+seek 1
+read 100 b2
+print b2 # prints "his_buff..._derk"
+read 100 b2
+print b0
+print b2 # prints a blank line
+write b2 # does nothing (b2 is empty)
+write b2 # does nothing (b2 is empty)
+write b2 # does nothing (b2 is empty)
+write b2 # does nothing (b2 is empty)
+write b2 # does nothing (b2 is empty)
+# f3 100 4
+showinfo
+open f1 # auto-close f3
+# go to end of file and write
+stat b3
+seek b3
+# should fill block 2 and start block 5 (1 byte)
+write b1
+close
+# f1 301 0 1 2 5
+showinfo
+# remove f2
+del f2
+open f3
+stat b3
+seek b3
+write b1 # 100 more (capture f2's old block)
+# f3 200 4 3
+showinfo

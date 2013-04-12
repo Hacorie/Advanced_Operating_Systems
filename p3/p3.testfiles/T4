@@ -1,0 +1,15 @@
+#!/bin/sh
+
+rm -f temps2
+cat  > temps2  <<EOF
+echo STARTING
+cat f1 f2 | grep x | grep -v z ; cat < f1 | grep z > o1 ; cat o1
+echo DONE
+EOF
+
+./p3 temps2
+echo "RMB linexxa"
+echo "RMB morexxb"
+echo "RMB --"
+echo "RMB linezza"
+echo "RMB linexxz"

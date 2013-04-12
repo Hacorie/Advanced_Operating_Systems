@@ -1,0 +1,11 @@
+#!/bin/sh
+
+rm -f temps2
+
+cat  > temps2  <<EOF
+./nprint 8 &
+./nprint 8 &
+./nprint 8
+EOF
+
+./p3 temps2

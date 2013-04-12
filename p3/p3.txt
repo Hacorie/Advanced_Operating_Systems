@@ -1,0 +1,100 @@
+
+                        Advanced Operating Systems
+                                 Project 3
+                                 Fall 2012
+
+
+turnin id:  aos_p3
+
+
+Write a C/C++ program that implements your own shell.  It should print a
+prompt which is the concatenation of your login id and the char string
+"_sh> " (note the blank at the end). So, mine for example would be
+"rbutler_sh> " without the quotes.  However, the shell should not print
+a prompt if its stdin is not a tty or if it is given a single command-line
+arg which is a file to accept commands from instead.  Assume that no
+command-line will be more that 64 bytes.
+
+The shell should mimic the operation of other shells when there is any
+confusion as to operation, unless otherwise stated.  It should not be
+implemented using the system() library function or other such facilities
+to make use of existing shells; it should be a stand-alone product.
+
+For ease of parsing, you may assume that all command-line values are
+separated by at least one char of white-space and that a single command
+is on a single line.  A # anywhere on the line marks the beginning of
+a comment and thus the end of the line.
+
+The shell should provide these built-in commands:
+   
+   TODO: 
+
+   DONE: 
+        quit (or end-of-file, e.g. cntl-D on tty)
+        envprt
+        echo word $shellvar $envvar    # print shellvar if same name exists
+        envset VAR VAL
+        set var val  (shell variable - not env)
+        envunset VAR
+        pwd
+        cd  (no args -> no change) (one arg may be relative or absolute)
+        src (like source) 
+            (the sourced file should ONLY contain built-in cmds)
+            (do not print prompts for individual cmds in the file)
+        witch (like which :)
+
+        lim cputime memory (no args prints current; setrlimit CPU or AS)
+            lim takes either 0 args or exactly 2 args, e.g.:
+                lim 3 4  # (max of 3 seconds cputime and 4 MB of memory)
+
+
+Built-in commands are executed in the shell's process.
+Variables can be used on any command-line, but no variable value
+can contain a $ that causes recursive variable interpolation.
+A valid value on a command-line might be:
+    cd $HOME/$nextdir
+where both HOME and nextdir must be interpolated.
+Valid vars consist of alphas, numerics, and underscore.
+
+The shell should provide these environment variables at start-up:
+    AOSPATH (default is /bin:/usr/bin)
+    AOSCWD  (current working directory) (cd should cause it to be updated)
+And, those two vars should be the ONLY two at start-up.
+So, I should be able to immediately execute:
+    echo $AOSPATH $AOSCWD
+
+Any command that is not built-in, should be found in the AOSPATH.
+Follow the convention of forking a new process for commands that are not
+built-in.  Use execve to exec the programs.
+
+Provide these forms of command-line execution:
+    pgm1 arg1 arg2 ; pgm2 argx argy ; pgm3
+    pgm1 arg1 arg2 arg3 | pgm2 | pgm3
+    pgm1 < infile > outfile
+Combinations are acceptable, e.g.:
+    pgm1 arg1 | pgm2 argx argy ; pgm3 < in3 ; pgm4 | pgm5 argz > out5
+
+One more type:
+    pgm1 arga argb &
+This one runs a single program in the background.  It does not have
+to be combined wih any of the other formats, i.e. it does not have to
+support redirection or ;'s on a command with & char.  However, two or
+more at a time may be going, e.g.:
+    pgm1 arg1 arg2 arg3 &
+    pgm2 arg2 &
+Whenever each is started, the shell should print the pid of the new process.
+The shell should print a message whenever any background process terminates.
+
+Do *not* bother to provide special support for concepts such as process
+groups or sessions, e.g.: (p;q) > out
+
+
+Submitting the project for grading:
+
+The project should compile and link as p3.
+
+You should turnin an UNcompressed tar file of a directory which
+contains all of the required files.
+
+To build the project, I will cd to its directory and simply type:
+    make

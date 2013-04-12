@@ -1,0 +1,18 @@
+program_3_output
+file2    228   1   2   3  
+file3    171   0   4  
+______________x
+__x
+171
+some_string
+_at_least_50
+0000000001000000000200000000030000000004000000000500000000010000000002000000000300000000040000000005some_string_at_least_50_chars_long______________________x
+file2    228   1   2   3  
+file3    171   0   4  
+myfile   157   5   6  
+SEEK: Value '10000000' is larger than open file's size (157 bytes) -- setting to EOF
+0
+5
+
+
+005testing

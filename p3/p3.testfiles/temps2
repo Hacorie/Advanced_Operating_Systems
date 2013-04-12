@@ -1,0 +1,4 @@
+lim 2 3
+lim
+./bigpgm  # should get killed
+./longpgm # should get killed

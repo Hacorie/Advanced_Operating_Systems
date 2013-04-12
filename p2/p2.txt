@@ -1,0 +1,179 @@
+
+                        Advanced Operating Systems
+                                 Project 2
+                                 Fall 2012
+
+
+turnin id:  aos_p2
+
+
+Write a C/C++ program that simulates a small FAT-based file system
+in memory.  The file system should consist of 500 blocks which are 100
+bytes each.  You may keep the FAT and directory separate from the actual
+file space.  Block numbers will be relative to 0.
+
+Each entry in the directory should contain the name of a file, current
+length of the file, and block number of the first block of the file.
+If the file is empty, the first block should be -1 since block -1 is an
+invalid data block.
+
+To demo correct operation of the program, have it interpret the simple
+language described below.
+
+The fields of the language are separated by arbitrary blanks or tabs;
+there may be leading/trailing blanks/tabs also.
+A single instruction is on a single line.  A # anywhere on a line
+indicates the beginning of a comment and marks the end of the instruction
+portion of the line; no string may contain a #.  The language is case
+IN-sensitive although I will use mostly caps for instruction names below
+to make them more visible.
+
+some mins & maxes:
+    - files have no max size other than the size of the virtual file system
+    - the directory should support at least 32 entries
+    - file names, buffer names, variable names will be at most 8 chars
+    - strings will be at most 200 bytes (e.g. in assignment statements)
+    - buffers must be able to hold 1000 bytes because a buffer may
+      be filled by some method other than an assignment statement
+    - buffers contain strings that are NULL terminated (see below)
+
+
+The Language to Interpret
+
+instructions useful for testing:
+    SET buffer_name string
+        buffer_name is a variable name remembered by the program and
+        is used to hold the char string which will NOT contain embedded
+        white space.  However, the string in the buffer should be NULL
+        terminated.
+        Example:
+            SET buffer1 hello_there_mickey
+    PRINT buffer_name
+        Example:
+            PRINT buffer1
+
+high-level I/O:
+  For any instructions below which refer to the currently open file,
+  if no file is open, you should simply print an informative error
+  message and have the program immediately terminate.
+    CREATE file_name
+        file_name is a string.
+        Creates a file entry in your directory which initializes the file
+        containing zero bytes.
+        Example:
+            CREATE file1
+    OPEN file_name
+        Only one file may be open at a time.
+        Automatically close another open file.
+        All OPENs are for both read and write.
+        The file must have been previously created via CREATE, else print
+        an error message and terminate the program.
+        Each OPEN is initially positioned at the start of the file (loc 0).
+        Example:
+            OPEN file1
+    WRITE buffer_name
+        Writes current contents of the specified buffer into the currently
+        open file at the current file location.  This instruction should
+        NOT write the NULL terminator into the file.
+        Example:
+            WRITE buffer1
+    READ int_num_bytes buffer_name
+        Read from current location in currently open file into the specified
+        buffer. If int_num_bytes specifies more bytes than present in the
+        file, just reads to eof.  You may assume that int_num_bytes will
+        never be greater than 1000, the max size of a buffer.
+        This instruction should provide a NULL terminator at the end
+        of the bytes read into the buffer.
+        Example:
+            READ 30 buffer  # destroys any old buffer contents
+    CLOSE
+        Close currently open file.
+        Example:
+            CLOSE
+    DEL file_name
+        Remove the specified file from the disk.  Reclaim its FAT entries
+        for use in new files.
+        Example:
+            DEL file1
+    STAT buffer_name
+        Produces in the specified buffer a char integer value which is the 
+        file size in bytes of the currently open file.  I must be able to
+        use this buffer to specify a displacement for SEEK below.
+    SEEK int_disp_from_beginning_of_file
+        Seek to a specified displacement in the file relative to the
+        beginning of the file.  The displacement may be either an integer
+        or the name of a buffer containing an integer value as created by
+        a SET statment or a STAT statement.
+        Valid displacements are 0 (the beginning) up to and including
+        filesize (just past the end, for adding onto the end of the file).
+        Thus, for a file of 100 bytes, you could seek to loc 100, which
+        would position you just past the last byte.  If you then did a READ,
+        you would get EOF; but, if you did a WRITE, you would increase the
+        size of the file.
+        Example 1:
+            SEEK 0  # seek to the beginning of currently open file
+            SET  buf1 15
+            SEEK buf1  # seek to position 15 (relative to 0)
+    SHOWINFO
+        Print the following info for each file in the FAT:
+            filename  filesize  IDs_of_blocks_being_used
+        Example:
+            SHOWINFO # Might produce:
+                file1  254  500 503 504
+                file2  177  501 502
+
+Do not clear the screen during execution.
+Do not produce extra output, i.e. only produce the requested output from the
+prints (PRINT and SHOWINFO) or necessary error msgs.  Note that the prints must
+work because their output will be my view into the operation of your program.
+
+
+An example:
+    set hdg program_1_output
+    print hdg
+    create file1
+    open file1
+    set s1 some_string_at_least_50_chars_long______________________x
+    write s1
+    close
+    create file2
+    open file2
+    write s1   # take up
+    write s1   #   at least
+    write s1   #     2 blocks
+    write s1   #       with file2
+    close
+    del file1  # free its blocks
+    create file3
+    open file3 # should grab block originally used by file1
+    write s1   # take up original block of file1
+    write s1   #   and spill into at least
+    write s1   #     one more block
+    close
+    showinfo   # should show file2 using blocks in the middle of file3
+    open file3
+    set disp 3
+    seek disp  # jumps to the e of 'some_string_...'
+    read 5 s3
+    print s3   # prints e_str
+
+
+Submitting the project for grading:
+
+The project should compile and link as p2.
+
+You should turnin a tar file of a directory which contains all of the
+required files.
+
+
+How the program will be tested:
+
+When I test the project, I will cd into my directory containing
+your copy of the project and simply type:
+    make
+Then, I will run the program several times something like this:
+    p2 test_filename
+
+test_filename will be replaced by the name of a file containing a
+program in the language above for you to interpret.  Note that it is a
+cmd-line arg to your program and is NOT handled via I/O-redirection.

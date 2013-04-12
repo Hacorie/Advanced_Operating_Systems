@@ -1,0 +1,28 @@
+set hdg program_1_output
+
+print hdg
+  create file1
+open file1
+	set s1 some_string_at_least_50_chars_long______________________x
+write s1
+close
+create file2
+open file2  
+wRite s1   # take up
+wRite s1   #   at least
+wRite 	s1   #     2 blocks
+wrIte 		s1   #       with file2
+close
+del file1  # free its blocks
+create 	file3
+open file3 		# should grab block originally used by file1
+write s1   # take up original block of file1
+write s1   #   and spill into at least
+write s1   #     one more block
+close
+showinfo   # should show file2 using blocks in the middle of file3
+OPEN file3
+SET disp 			3
+seek disp  # jumps to the e of 'some_string_...'
+read 5 s3
+print s3   # prints e_str

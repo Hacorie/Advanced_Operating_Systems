@@ -1,0 +1,70 @@
+    set hdg program_3_output
+    print hdg
+    create file1
+    open file1
+    set s1 some_string_at_least_50_chars_long______________________x
+    write s1
+    close
+    create file2
+    open file2
+    write s1   # take up
+    write s1   #   at least
+    write s1   #     2 blocks
+    write s1   #       with file2
+    close
+    del file1  # free its blocks
+    create file3
+    open file3 # should grab block originally used by file1
+    write s1   # take up original block of file1
+    write s1   #   and spill into at least
+    write s1   #     one more block
+    close
+    showinfo   # should show file2 using blocks in the middle of file3
+    open file3
+    set disp 99
+    seek disp  # jumps to the e of 'some_string_...'
+    read 15 s3
+    print s3   # prints ______________x
+    set disp 168  # check EOF file reading is correct, since its size is only 171
+    seek disp
+    read 5 s3  # try to read past eof
+    print s3   # prints __x
+    stat cur_size
+    print cur_size  # see if stat works - should print 171
+    set derp 0
+    seek derp
+    read 11 s4
+    print s4   # prints some_string
+    read 12 s4
+    print s4   # test correct file position after reading last - should print _at_least_50
+    set mystr   00000000010000000002000000000300000000040000000005
+    close
+    create myfile
+    open myfile
+    write mystr
+    write mystr
+    write s1
+    seek 0
+    read 157 bigbuff
+    print bigbuff
+    showinfo 
+    seek 10000000 #should only go to the end of the file
+    close
+    create another
+    open another
+    write mystr
+    write mystr
+    seek 98
+    read 1 newbuf
+    print newbuf
+    read 1 newbuf
+    print newbuf
+    read 1 newbuf
+    print newbuf
+    read 1 newbuf
+    print newbuf
+    set t1 testing
+    write t1
+    seek 97
+    read 40 otherbuf
+    print otherbuf

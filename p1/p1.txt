@@ -1,0 +1,71 @@
+                        Advanced Operating Systems
+                               Project 1
+                               Fall 2012
+
+turnin code:  aos_p1
+
+Develop a library (libaf.a) that provides alloc and free functions
+for user programs.  Implement these alloc and free commands:
+    void *mem_alloc(int nbytes);
+    void mem_free(void *ptr);
+The mem_alloc function should retrieve memory to manage by invoking
+the get_mem_from_OS function which is coded for you at the end of this
+project description.  As you can see, it will stop providing memory to
+the caller after a few invocations.
+
+If mem_alloc can not allocate the desired memory, it should return NULL.
+You may assume that no test program will make a request for more than
+64KB in one invocation.
+You may assume that mem_free will only be called with pointers retrieved
+from mem_alloc and which have not yet been freed.
+
+Sample test programs:
+    1. Allocate all memory randomly choosing 8, 32, 64 byte chunks,
+       then free it all and reallocate it.  Print how much was obtained
+       each time.  Should be about same total amount each time.
+    2. Allocate all memory in medium-sized pieces.  Then free several in
+       the middle. Then, request one large chunk that should block several
+       of the free ones together.
+
+You should have the FIRST target in your makefile be named testaf and it
+should compile and link a C program named testaf.c making sure that it
+is compiled with gcc and then linked with the libaf.a library.  You can
+make up sample testaf.c programs for testing with but I will supply my own
+when testing your project.
+
+I will simply type:
+    make
+which should cause libaf.a to be built containing linkable code for ALL of
+mem_alloc, mem_free, and get_mem_from_OS.  It should then compile testaf.c
+using gcc and linking it correctly with your libaf.a library.
+
+NOTE: If you write the library functions in C++, you may need to provide
+something like the following line in order to make sure all linkage is
+handled as if it were C:
+    extern "C" { void *mem_alloc(int); }
+Similarly, you may have to include -lstdc++ to facilitate linking as well.
+
+TURNIN
+    You should submit an UNcompressed tar file of a directory which contains
+    all of the required files (makefile, C/C++ source, header files, etc.).
+    Sample tar command to create a tar file from a dir named aosp1:
+	tar cvf p1.tar ./aosp1  # do NOT use full pathname of the dir
+
+--------
+
+#include <stdio.h>
+#include <malloc.h>
+
+static int call_count = 0;
+
+void *get_mem_from_OS()
+{
+    void *ptr;
+
+    if (call_count >= 3)
+        return NULL;
+    call_count++;
+    ptr = malloc(256 * 1024);
+    printf("os retrieved block of mem %d at %p\n",call_count,ptr);
+    return ptr;
+}

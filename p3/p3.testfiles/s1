@@ -1,0 +1,17 @@
+envprt
+echo --------
+envset FOO BAR
+envset MAX 999
+echo $FOO$MAX
+envunset FOO
+envprt
+witch date
+witch pydoc
+envset AOSPATH /usr/local/bin:$AOSPATH
+witch pydoc
+pwd
+cd /tmp
+pwd
+set v1 bin
+cd /usr/$v1
+pwd

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+rm -f temps2
+
+cat  > temps2  <<EOF
+lim 2 3
+lim
+./bigpgm  # should get killed
+./longpgm # should get killed
+EOF
+
+./p3 temps2

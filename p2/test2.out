@@ -1,0 +1,18 @@
+program_2_output
+this_buffer_has_exactly_one_hundred_characters_no_more_and_certainly_no_less_herps_derpin_derka_derkthis_buffer_has_exactly_one_hundred_chara
+f1       201   0   1   2  
+f1       201   0   1   2  
+f2       1     3  
+next_line_is_blank
+
+his_buffer_has_exactly_one_hundred_characters_no_more_and_certainly_no_less_herps_derpin_derka_derk
+next_line_is_blank
+
+f1       201   0   1   2  
+f2       1     3  
+f3       100   4  
+f1       301   0   1   2   5  
+f2       1     3  
+f3       100   4  
+f1       301   0   1   2   5  
+f3       200   4   3  

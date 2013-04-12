@@ -1,0 +1,23 @@
+
+RMB promts ARE echoed
+spawn ./p3
+nep2d_sh>  echo STARTING
+STARTING
+nep2d_sh>  src s1
+$AOSCWD: 	/nfshome/nep2d/AOS/p3/p3.testfiles
+$AOSPATH: 	/bin:/usr/bin
+--------
+BAR999
+$AOSCWD: 	/nfshome/nep2d/AOS/p3/p3.testfiles
+$MAX: 	999
+$AOSPATH: 	/bin:/usr/bin
+/bin/date
+/usr/bin/pydoc
+/usr/local/bin/pydoc
+/nfshome/nep2d/AOS/p3/p3.testfiles
+/tmp
+/usr/bin
+nep2d_sh>  echo DONE
+DONE
+nep2d_sh>  
+RMB promts ARE echoed

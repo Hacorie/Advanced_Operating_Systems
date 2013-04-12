@@ -1,0 +1,9 @@
+stdin is/is not a TTY
+    shell scriptName  -- No Prompts given single command line arg
+    shell < scriptname -- DO NOT PRINT prompts
+    shell, then src filename   -- PRINTS prompt after enter of shell, src filename command does not print     
+
+Set and unset and print environment variables;
+    Do not worry;   AOSPATH and AOSCWD will not be reset
+
+

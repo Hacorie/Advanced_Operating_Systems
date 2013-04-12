@@ -1,0 +1,23 @@
+set s1 some_string_at_least_50_chars_long______________________x
+set s3 HELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLO
+set s4 hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello
+set s5 pewpewpew
+create file2
+open file2
+write s3
+write s4
+write s5
+write s3
+write s3
+write s1
+write s1
+seek 0
+write s4
+write s4
+write s4
+write s4
+write s5
+write s1
+write s1
+close
+showinfo
